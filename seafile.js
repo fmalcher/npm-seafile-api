@@ -127,14 +127,18 @@ var sfClient = module.exports = function(url, token) {
 
         this.call('accounts/' + email, 'DELETE', null, null, function(err, data, code) {
             if (err) return callback(err);
-            console.log(code, data);
             return callback(null, data, code);
         });
     }
 
 
-    this.getAccountInfo = function(callback){
-        //TODO
+    this.getAccountInfo = function(email, callback){
+        if(!email) return callback(new Error('Params missing: email'));
+
+        this.call('accounts/' + email, 'GET', null, null, function(err, data, code) {
+            if (err) return callback(err);
+            return callback(null, data, code);
+        });
     }
 
 
