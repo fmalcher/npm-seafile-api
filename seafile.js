@@ -133,6 +133,24 @@ var sfClient = module.exports = function(url, token) {
     }
 
 
+    this.getAccountInfo = function(callback){
+        //TODO
+    }
+
+
+    this.addGroupMember = function(callback){
+        //TODO
+    }
+
+
+    this.deleteGroupMember = function(callback){
+        //TODO
+    }
+
+
+
+
+
 
 
 }
