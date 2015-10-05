@@ -1,13 +1,10 @@
 {
   "name": "seafile",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "npm module for Seafile Web API",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Ferdinand Malcher",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "request": "^2.64.0"
   }
