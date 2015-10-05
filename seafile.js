@@ -40,49 +40,107 @@ var sfClient = module.exports = function(url, token) {
                 }
 
             } else if (res.statusCode >= 400) {
-                return callback(new Error(res.statusCode + ' Error occured'), res.statusCode, body);
+                return callback(new Error(res.statusCode + ' Error occured'), body, res.statusCode);
 
             } else {
-                return callback(null, res.statusCode, body);
+                return callback(null, body, res.statusCode);
             }
         });
     }
 
+    //check whether mandatory fields are set; return array of unset params
+    this.checkMandatory = function(mand, params){
+        var miss = [];
 
+        for(var i = 0; i < mand.length; i++){
+            if(!params.hasOwnProperty(mand[i])) miss.push(mand[i]);
+        }
+
+        if(miss.length) return new Error('Missing params: ' + miss.join(', '));
+        else return false;
+    }
+
+
+    //////////////////////////////////////////////////////////////
 
 
     this.listAccounts = function(params, callback) {
         var qs = {};
 
-        if (params.start !== null) qs.start = params.start;
-        if (params.limit !== null) qs.limit = params.limit;
-        if (params.scope !== null) qs.scope = params.scope;
+        if (params.start != null) qs.start = params.start;
+        if (params.limit != null) qs.limit = params.limit;
+        if (params.scope != null) qs.scope = params.scope;
 
-        this.call('accounts', 'GET', null, qs, function(err, code, data) {
+        this.call('accounts', 'GET', null, qs, function(err, data, code) {
             if (err) return callback(err);
             console.log(code);
-            return callback(null, data);
+            return callback(null, data, code);
         });
     }
+
+
+
+
+    this.createAccount = function(params, callback) {
+        var err = this.checkMandatory(['email', 'password'], params);
+        if(err) return callback(err);
+
+        var body = {
+            password: params.password
+        };
+
+        if (params.is_staff != null) body.is_staff = params.is_staff;
+        if (params.is_active != null) body.is_active = params.is_active;
+
+        this.call('accounts/' + params.email, 'PUT', body, null, function(err, data, code) {
+            if (err) return callback(err);
+            return callback(null, data, code);
+        });
+    }
+
+
+    this.updateAccount = function(params, callback) {
+        var err = this.checkMandatory(['email'], params);
+        if(err) return callback(err);
+
+        var body = {};
+
+        if (params.password != null) body.password = params.password;
+        if (params.is_staff != null) body.is_staff = params.is_staff;
+        if (params.is_active != null) body.is_active = params.is_active;
+        if (params.name != null) body.name = params.name;
+        if (params.note != null) body.note = params.note;
+        if (params.storage != null) body.storage = params.storage;
+
+        if(!Object.keys(body).length) return callback(new Error('Params missing'));
+
+
+        this.call('accounts/' + params.email, 'PUT', body, null, function(err, data, code) {
+            if (err) return callback(err);
+            return callback(null, data, code);
+        });
+    }
+
+
+    this.deleteAccount = function(email, callback) {
+        if(!email) return callback(new Error('Params missing: email'));
+
+        this.call('accounts/' + email, 'DELETE', null, null, function(err, data, code) {
+            if (err) return callback(err);
+            console.log(code, data);
+            return callback(null, data, code);
+        });
+    }
+
+
+
+
 }
 
 
-/*
-module.exports.createAccount = function(email, password, is_staff, is_active, callback) {
-    if (!is_staff) is_staff = 0;
-    if (!is_active) is_active = 0;
 
-    var body = {
-        password: password,
-        is_staff: is_staff,
-        is_active: is_active
-    }
 
-    requestApi('accounts/' + email, 'PUT', body, null, function(err) {
-        if (err) return callback(err);
-        return callback();
-    });
-}*/
+
 
 function IsJsonString(str) {
     try {
