@@ -24,3 +24,12 @@ sf.getAccountInfo('fmalcher@hftl.club', function(err, accounts){
     });
 
 });*/
+
+
+/*sf.addGroupMember({user_name: 'fmalcher@hftl.club', group_id: 1} , function(err, body){
+    console.log(body);
+});*/
+
+sf.deleteGroupMember({user_name: 'fmalcher@hftl.club', group_id: 1} , function(err, body){
+    console.log(body);
+});

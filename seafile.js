@@ -142,13 +142,31 @@ var sfClient = module.exports = function(url, token) {
     }
 
 
-    this.addGroupMember = function(callback){
-        //TODO
+    this.addGroupMember = function(params, callback){
+        var err = this.checkMandatory(['user_name', 'group_id'], params);
+        if(err) return callback(err);
+
+        var body = {};
+        if (params.user_name != null) body.user_name = params.user_name;
+
+        this.call('groups/' + params.group_id + '/members/', 'PUT', body, null, function(err, data, code) {
+            if (err) return callback(err);
+            return callback(null, data, code);
+        });
     }
 
 
-    this.deleteGroupMember = function(callback){
-        //TODO
+    this.deleteGroupMember = function(params, callback){
+        var err = this.checkMandatory(['user_name', 'group_id'], params);
+        if(err) return callback(err);
+
+        var body = {};
+        if (params.user_name != null) body.user_name = params.user_name;
+
+        this.call('groups/' + params.group_id + '/members/', 'DELETE', body, null, function(err, data, code) {
+            if (err) return callback(err);
+            return callback(null, data, code);
+        });
     }
 
 
