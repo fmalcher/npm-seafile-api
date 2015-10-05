@@ -1,7 +1,6 @@
-## npm-seafile-api
 npm module for accessing the [Seafile Web API](http://manual.seafile.com/develop/web_api.html).
 
-It also implements a subset of the available functions:
+It just implements the following subset of the available functions:
 * `listAccounts`
 * `createAccount`
 * `updateAccount`
