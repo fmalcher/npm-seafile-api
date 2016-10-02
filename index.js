@@ -169,8 +169,28 @@ var sfClient = module.exports = function(url, token) {
         });
     }
 
-}
 
+    this.moveMultiple = function(params, callback) {
+        var err = this.checkMandatory(['src_repo', 'dst_repo', 'file_names'], params);
+        if(err) return callback(err);
+
+        var body = {
+            dst_dir: '/',
+            p: '/'
+        };
+
+        if (params.dst_repo != null) body.dst_repo = params.dst_repo;
+        if (params.dst_dir != null) body.dst_dir = params.dst_dir;
+        if (params.p != null) body.p = params.p;
+        if (Array.isArray(params.file_names) && params.file_names.length) body.file_names = params.file_names.join(':');
+        
+        this.call('repos/' + params.src_repo + '/fileops/move/', 'POST', body, null, function(err, data, code) {
+            if (err) return callback(err);
+            console.log(code);
+            return callback(null, data, code);
+        });
+    }
+}
 
 
 

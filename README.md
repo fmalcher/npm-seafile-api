@@ -136,6 +136,30 @@ sf.deleteGroupMember({
 * `group_id`: required
 
 
+### moveMultiple(options, callback)
+[Seafile API Docs](https://manual.seafile.com/develop/web_api.html#multiple-files-directories-move)
+
+```js
+sf.moveMultiple({
+    src_repo: 'source_repo_id',
+    dst_repo: 'dest_repo_id',
+    file_names: [
+        'file.txt',
+        'image.jpg'
+    ],
+    dst_path: '/',
+    p: '/'
+}, function(err, body){
+    console.log(body);
+});
+```
+
+* `src_repo`: required
+* `dst_repo`: required
+* `file_name`: required
+* all other params are optional
+
+
 # License
 [MIT](https://opensource.org/licenses/MIT)
 
