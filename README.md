@@ -160,6 +160,31 @@ sf.moveMultiple({
 * all other params are optional
 
 
+
+### renameDirectory(options, callback)
+[Seafile API Docs](https://manual.seafile.com/develop/web_api.html#rename-directory)
+
+```js
+sf.renameDirectory({
+    repo_id: 'repo_id',
+    p: 'foo',
+    newname: 'pinkfloyd_newfolder'
+}, function(err, body){
+  console.log(body);
+});
+```
+
+* `repo_id`: required
+* `p`: required
+* `newname`: required
+
+
+
+
+
+
+
+
 # License
 [MIT](https://opensource.org/licenses/MIT)
 

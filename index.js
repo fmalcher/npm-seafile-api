@@ -190,6 +190,34 @@ var sfClient = module.exports = function(url, token) {
             return callback(null, data, code);
         });
     }
+
+
+
+    this.renameDirectory = function(params, callback) {
+        var err = this.checkMandatory(['repo_id', 'p', 'newname'], params);
+        if(err) return callback(err);
+
+        var body = {
+            operation: 'rename'
+        };
+
+        if (params.repo_id != null) body.repo_id = params.repo_id;
+        if (params.newname != null) body.newname = params.newname;
+
+       
+        //add slash at the beginning
+        if (params.p.substr(0,1) != '/') params.p = '/' + params.p;
+
+        var qs = {
+            p: params.p
+        };
+        
+        this.call('repos/' + params.repo_id + '/dir/', 'POST', body, qs, function(err, data, code) {
+            if (err) return callback(err);
+            console.log(code);
+            return callback(null, data, code);
+        });
+    }
 }
 
 
