@@ -180,6 +180,21 @@ sf.renameDirectory({
 
 
 
+### createDirectory(options, callback)
+[Seafile API Docs](https://manual.seafile.com/develop/web_api.html#create-new-directory)
+
+```js
+sf.createDirectory({
+    repo_id: 'repo_id',
+    p: 'bar',
+}, function(err, body){
+  console.log(body);
+});
+```
+
+* `repo_id`: required
+* `p`: required
+
 
 
 
